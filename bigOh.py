@@ -5,10 +5,10 @@ from time import perf_counter
 
 import sortingAlgos
 
-ITERATIONS = 50
+ITERATIONS = 30
 N = 100
 N_INCREMENT = 50
-ALGOS = [sorted, sortingAlgos.bubble, sortingAlgos.insertion]
+ALGOS = [sortingAlgos.bubble, sortingAlgos.smarterBubble, sorted]
 
 def timeListSort(l, algo):
     starting_time = perf_counter()
@@ -25,11 +25,10 @@ def generateAndSortAList(n):
     return all_times
 
 def saveAndPlotDF(df):
-    df.to_csv("test.csv", index=False)
+    df = df.set_index('N')
+    df.to_csv("test.csv")
     print("Created .csv")
-    for col in df.columns:
-        if col != 'N':
-            df.plot(x='N', y=col, kind = 'scatter')
+    df.plot(ylabel='Time', legend=True)
     plt.show()
 
 def collectSortTimes():
