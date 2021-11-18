@@ -6,22 +6,28 @@ from time import perf_counter
 import sortingAlgos
 
 ITERATIONS = 30
-N = 100
-N_INCREMENT = 50
-ALGOS = [sortingAlgos.bubble, sortingAlgos.smarterBubble, sorted]
+N = 1000
+N_INCREMENT = 500
+ALGOS = [sortingAlgos.merge, sorted]
 
 def timeListSort(l, algo):
     starting_time = perf_counter()
     sorted_arr = algo(l)
     time_taken = perf_counter() - starting_time
-    return time_taken
+    return time_taken, sorted_arr
 
 def generateAndSortAList(n):
     l = [randint(0, n) for x in range(n)]
     all_times = {}
+    sorted_lists = {}
     for algo in ALGOS:
-        time_taken = timeListSort(l, algo)
+        time_taken, sorted_arr = timeListSort(l, algo)
         all_times[str(algo)] = time_taken
+        sorted_lists[str(algo)] = sorted_arr
+    # for index, val in enumerate(sorted_lists.values()):
+    #     if index > 0:
+    #         if val != sorted_lists.values()[index]:
+    #             raise RuntimeError("Lists don't match")
     return all_times
 
 def saveAndPlotDF(df):
